@@ -39,7 +39,7 @@ impl<'a> Lexer<'a> {
                 if is_letter(c) {
                     skip_read = true;
                     let literal = self.read_identifier();
-                    let literal = String::from_utf8(literal).unwrap();
+                    let literal = String::from_utf8_lossy(literal).to_string();
                     match &*literal {
                         "fn" => Token::new(TokenType::Function),
                         "let" => Token::new(TokenType::Let),
@@ -48,7 +48,7 @@ impl<'a> Lexer<'a> {
                 } else if is_digit(c) {
                     skip_read = true;
                     let number = self.read_number();
-                    let number = String::from_utf8(number).unwrap();
+                    let number = String::from_utf8_lossy(number).to_string();
                     Token::new(TokenType::Int(number))
                 } else {
                     Token::new(TokenType::Illegal)
@@ -74,35 +74,22 @@ impl<'a> Lexer<'a> {
         self.read_position += 1;
     }
 
-    fn read_number(&mut self) -> Vec<u8> {
-        let mut buf: Vec<u8> = vec![];
-        while self.ch != None {
-            let c = self.ch.unwrap();
-            if is_digit(c) {
-                buf.push(c);
-                self.read_char();
-            } else {
-                break;
-            }
+    fn read_number(&mut self) -> &[u8] {
+        let position = self.position;
+        while self.ch != None && is_digit(self.ch.unwrap()) {
+            self.read_char();
         }
 
-        buf
+        &self.input[position..self.position]
     }
 
-    fn read_identifier(&mut self) -> Vec<u8> {
-        let mut buf: Vec<u8> = vec![];
-
-        while self.ch != None {
-            let c = self.ch.unwrap();
-            if is_letter(c) {
-                buf.push(c);
-                self.read_char();
-            } else {
-                break;
-            }
+    fn read_identifier(&mut self) -> &[u8] {
+        let position = self.position;
+        while self.ch != None && is_letter(self.ch.unwrap()) {
+            self.read_char();
         }
 
-        buf
+        &self.input[position..self.position]
     }
 
     fn skip_whitespace(&mut self) {
