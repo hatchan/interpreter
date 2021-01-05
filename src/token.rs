@@ -28,6 +28,8 @@ pub enum TokenType {
     Slash,
     LT,
     GT,
+    Equals,
+    NotEquals,
 
     // Delimiters
     Comma,

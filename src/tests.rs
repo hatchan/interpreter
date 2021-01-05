@@ -41,7 +41,9 @@ mod tests {
             return true;
             } else {
             return false;
-            }",
+            }
+            10 == 10;
+            10 != 9;",
         );
         let tests = vec![
             TokenType::Let,
@@ -109,6 +111,14 @@ mod tests {
             TokenType::False,
             TokenType::SemiColon,
             TokenType::RBrace,
+            TokenType::Int(String::from("10")),
+            TokenType::Equals,
+            TokenType::Int(String::from("10")),
+            TokenType::SemiColon,
+            TokenType::Int(String::from("10")),
+            TokenType::NotEquals,
+            TokenType::Int(String::from("9")),
+            TokenType::SemiColon,
             TokenType::EOF,
         ];
 

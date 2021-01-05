@@ -27,7 +27,13 @@ impl<'a> Lexer<'a> {
         let mut skip_read = false;
         let token = match self.ch {
             None => Token::new(TokenType::EOF),
-            Some(b'=') => Token::new(TokenType::Assign),
+            Some(b'=') => match self.peek_char() {
+                Some(b'=') => {
+                    self.read_char();
+                    Token::new(TokenType::Equals)
+                }
+                _ => Token::new(TokenType::Assign),
+            },
             Some(b';') => Token::new(TokenType::SemiColon),
             Some(b'(') => Token::new(TokenType::LParen),
             Some(b')') => Token::new(TokenType::RParen),
@@ -35,7 +41,13 @@ impl<'a> Lexer<'a> {
             Some(b'+') => Token::new(TokenType::Plus),
             Some(b'{') => Token::new(TokenType::LBrace),
             Some(b'}') => Token::new(TokenType::RBrace),
-            Some(b'!') => Token::new(TokenType::Bang),
+            Some(b'!') => match self.peek_char() {
+                Some(b'=') => {
+                    self.read_char();
+                    Token::new(TokenType::NotEquals)
+                }
+                _ => Token::new(TokenType::Bang),
+            },
             Some(b'-') => Token::new(TokenType::Minus),
             Some(b'/') => Token::new(TokenType::Slash),
             Some(b'*') => Token::new(TokenType::Asterisk),
@@ -85,6 +97,14 @@ impl<'a> Lexer<'a> {
         self.read_position += 1;
     }
 
+    fn peek_char(&self) -> Option<u8> {
+        if self.read_position >= self.input.len() {
+            None
+        } else {
+            Some(self.input[self.read_position])
+        }
+    }
+
     fn read_number(&mut self) -> &[u8] {
         let position = self.position;
         while self.ch != None && is_digit(self.ch.unwrap()) {
@@ -109,6 +129,7 @@ impl<'a> Lexer<'a> {
         }
     }
 }
+
 fn is_digit(ch: u8) -> bool {
     return b'0' <= ch && ch <= b'9';
 }
