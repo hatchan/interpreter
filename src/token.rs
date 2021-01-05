@@ -26,6 +26,8 @@ pub enum TokenType {
     Bang,
     Asterisk,
     Slash,
+    LT,
+    GT,
 
     // Delimiters
     Comma,

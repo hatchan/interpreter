@@ -34,7 +34,9 @@ mod tests {
             let add = fn(x, y) {
             x + y;
             };
-            let result = add(five, ten);",
+            let result = add(five, ten);
+            !-/*5;
+            5 < 10 > 5;",
         );
         let tests = vec![
             TokenType::Let,
@@ -73,6 +75,19 @@ mod tests {
             TokenType::Ident(String::from("ten")),
             TokenType::RParen,
             TokenType::SemiColon,
+            TokenType::Bang,
+            TokenType::Minus,
+            TokenType::Slash,
+            TokenType::Asterisk,
+            TokenType::Int(String::from("5")),
+            TokenType::SemiColon,
+            TokenType::Int(String::from("5")),
+            TokenType::LT,
+            TokenType::Int(String::from("10")),
+            TokenType::GT,
+            TokenType::Int(String::from("5")),
+            TokenType::SemiColon,
+            TokenType::EOF,
         ];
 
         let mut l = lexer::Lexer::new(&input);

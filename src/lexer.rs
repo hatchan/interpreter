@@ -35,6 +35,12 @@ impl<'a> Lexer<'a> {
             Some(b'+') => Token::new(TokenType::Plus),
             Some(b'{') => Token::new(TokenType::LBrace),
             Some(b'}') => Token::new(TokenType::RBrace),
+            Some(b'!') => Token::new(TokenType::Bang),
+            Some(b'-') => Token::new(TokenType::Minus),
+            Some(b'/') => Token::new(TokenType::Slash),
+            Some(b'*') => Token::new(TokenType::Asterisk),
+            Some(b'<') => Token::new(TokenType::LT),
+            Some(b'>') => Token::new(TokenType::GT),
             Some(c) => {
                 if is_letter(c) {
                     skip_read = true;
