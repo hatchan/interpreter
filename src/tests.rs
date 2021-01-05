@@ -36,7 +36,12 @@ mod tests {
             };
             let result = add(five, ten);
             !-/*5;
-            5 < 10 > 5;",
+            5 < 10 > 5;
+            if (5 < 10) {
+            return true;
+            } else {
+            return false;
+            }",
         );
         let tests = vec![
             TokenType::Let,
@@ -87,6 +92,23 @@ mod tests {
             TokenType::GT,
             TokenType::Int(String::from("5")),
             TokenType::SemiColon,
+            TokenType::If,
+            TokenType::LParen,
+            TokenType::Int(String::from("5")),
+            TokenType::LT,
+            TokenType::Int(String::from("10")),
+            TokenType::RParen,
+            TokenType::LBrace,
+            TokenType::Return,
+            TokenType::True,
+            TokenType::SemiColon,
+            TokenType::RBrace,
+            TokenType::Else,
+            TokenType::LBrace,
+            TokenType::Return,
+            TokenType::False,
+            TokenType::SemiColon,
+            TokenType::RBrace,
             TokenType::EOF,
         ];
 

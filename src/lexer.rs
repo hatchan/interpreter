@@ -49,6 +49,11 @@ impl<'a> Lexer<'a> {
                     match &*literal {
                         "fn" => Token::new(TokenType::Function),
                         "let" => Token::new(TokenType::Let),
+                        "if" => Token::new(TokenType::If),
+                        "return" => Token::new(TokenType::Return),
+                        "true" => Token::new(TokenType::True),
+                        "false" => Token::new(TokenType::False),
+                        "else" => Token::new(TokenType::Else),
                         _ => Token::new(TokenType::Ident(literal.to_string())),
                     }
                 } else if is_digit(c) {
